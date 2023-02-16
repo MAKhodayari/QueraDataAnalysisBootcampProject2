@@ -2,6 +2,7 @@
 import numpy as np
 import pandas as pd
 import os
+import plotly.express as px
 # %%
 dirname = os.path.dirname(__file__)
 datas_path = dirname[:-13] + "datas/"
@@ -31,4 +32,13 @@ print(s)
 print(d)
 # %%
 len(gdp_df)
+# %%
+df = pd.read_csv(datas_path + "data.csv")
+df
+# %%
+d = df.groupby("Region, subregion, country or area *").count()["Life Expectancy at Birth, both sexes (years)"]
+d
+# %%
+fig = px.histogram(d , x = d.index , y ="Life Expectancy at Birth, both sexes (years)")
+fig.write_html('first_figure.html', auto_open=True)
 # %%
