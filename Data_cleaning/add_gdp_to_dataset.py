@@ -15,7 +15,7 @@ df_l = pd.read_csv(datas_path+"Life Expectancy vs GDP 1950-2018.csv")
 df_wb = pd.read_csv(datas_path+"API_NY.GDP.PCAP.CD_DS2_en_csv_v2_4888903.csv") 
 df_wb
 # %%
-df_wb.isnull().iloc[0][str(1961)]
+df
 
 # %%
 khali = 0
