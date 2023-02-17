@@ -42,3 +42,4 @@ d
 fig = px.histogram(d , x = d.index , y ="Life Expectancy at Birth, both sexes (years)")
 fig.write_html('first_figure.html', auto_open=True)
 # %%
+
