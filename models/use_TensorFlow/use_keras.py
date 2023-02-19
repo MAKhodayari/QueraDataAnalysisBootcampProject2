@@ -1,5 +1,5 @@
 # %%
-
+# وارد کردن کتابخوانه‌ها
 import os
 import plotly as px
 import numpy as np
@@ -10,20 +10,28 @@ import tensorflow as tf
 from tensorflow import keras as K
 
 # %%
+# گرفتن آدرس‌ها
 dirname = os.path.dirname(__file__)
 Datasets_path = dirname[:-21] + "Datasets/"
+# برای اجرای کد در ویندوز خط بالای اینجا باید به خط پایینی تغییر کند.
+# Datasets_path = dirname[:-21] + "Datasets\\"
 # %%
+# فراخوانی جدول نهایی آماده شده
 df = pd.read_csv(Datasets_path+"DataWithFullGDP.csv")
+# اگر جدول با ایندکس ذخیره شده باشه ایندکس حذف می‌شه
 if "Unnamed: 0" in df.columns:
     df.drop(columns= "Unnamed: 0", inplace=True)
 df
 # %%
+# چک کردن وجود null
 df.isnull().sum()
 # دروغ می‌گه :)
 # %%
 df.info()
 # %%
-# بیایین تبدیل به float کنیم وقتی خطا داد می‌فهمیم باید حرکتی بزنیم.
+# در صورتی که داده‌های اولیه‌ای که خیلی تمیز نبودن رو به این قسمت وارد کنیم می‌تونه خوب مدیریتش کنه.
+# در اینجا ما داده‌‌ها رو سعی می‌کنیم float کنیم و در صورت گرفتن خطا ستون های مورد دار رو پیدا می‌کنیم.
+
 #df = pd.read_csv(Datasets_path+"CountryInfo.csv")
 list_col_err =[]
 for col in df.columns[2:]:
@@ -36,9 +44,11 @@ for col in df.columns[2:]:
             print(err)
 
 len(df.columns[2:]),len(list_col_err)
-# پس خیلی اوضاع خیطه
-
+#اینجا می‌تونیم بفهمیم چه تعداد از کل ستون‌ها غیر قابل تبدیل هستن.
 # %%
+# اینجا داده‌هایی که به شکل سه نقطه بدون رو به nan تبدیل می‌کنیم.
+# می‌شه این‌جا رو تغییر داد به صورتی که هر داده‌ای که به عدد تبدیل نشد رو به nan تبدیل کنه.
+# به شرطی که قبلش دیگه داده حرفی نداشته باشیم و سعی کرده باشیم همه رو عددی کنیم.
 for col in list_col_err:
     for j in range(len(df)):
         if df.at[j , col] == '...':
@@ -46,12 +56,14 @@ for col in list_col_err:
 
 
 # %%
+# حالا می‌فهمیم اوضاع واقعا چه جوریه.
 df.isnull().sum()
 
 # %%
+# مصور سازی داده‌های از دست رفته
 msno.matrix(df)
 # %%
-
+# این ستون داده از دست رفته زیادی داره.
 df.columns[14]
 # %%
 df[df[df.columns[5]].isnull()]
@@ -59,17 +71,21 @@ df[df[df.columns[5]].isnull()]
 
 
 # %%
+# فعلا هر ردیفی که داده از دست رفته داره رو حذف می‌کنیم.
 df.dropna(inplace=True)
 # %%
+# ستون اسم و کد کشور رو از روی مجموعه داده‌ها حذف می‌کنیم.
 df.drop(columns=["Region, subregion, country or area *","ISO3 Alpha-code"], inplace=True)
 # %%
-# الآن دیگه باید وارد فاز طراحی مدل بشیم.
-# من اینجا می‌خوام شبکه عصبی رو تست کنم.
+# اینجا داده‌های ترین و تست رو باید درست کنیم.
+# کاری که این‌جا هنوز انجام نشده اینه که باید از روی دیتا فریم مون مجموعه X و Y رو مشخص کنیم.
+ 
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
-
-train , test = train_test_split(df, test_size=.2, random_state=313)
-train , valid = train_test_split(train, test_size=.2, random_state=313)
+X = df.drop(columns=[اون ستون مهم که باید حدس زده بشه])
+Y = df[[اون ستون مهم که باید حدس زده بشه]]
+train_X , test_X, train_Y , test_Y = train_test_split(X ,Y , test_size=.2, random_state=313)
+train_X , valid_X , train_Y , valid_Y = train_test_split(train_X,train_Y, test_size=.2, random_state=313)
 
 # %%
 train
@@ -97,7 +113,7 @@ batch_size= 8
 max_epochs = 500
 
 print("Starting training ")
-h = model.fit(train_x, train_y, batch_size=batch_size, epochs=max_epochs, verbose=1)
+h = model.fit(train_X, train_Y, batch_size=batch_size, epochs=max_epochs, verbose=1)
 print("Training finished \n")
 
 
