@@ -16,7 +16,9 @@ datasets_path = dirname[:-8] + 'Datasets\\'
 # datasets_path = dirname[:-8] + 'Datasets/'
 df = pd.read_csv(datasets_path + 'ModelData.csv').drop(columns=['Unnamed: 0',
                                                                 'Region, subregion, country or area *',
-                                                                'ISO3 Alpha-code'])
+                                                                'ISO3 Alpha-code',
+                                                                'Parent code',
+                                                                'Location code'])
 
 
 df.info()
