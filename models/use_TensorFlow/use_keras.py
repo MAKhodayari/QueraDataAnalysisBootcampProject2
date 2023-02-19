@@ -8,26 +8,10 @@ import missingno as msno
 import numpy as np
 import tensorflow as tf
 from tensorflow import keras as K
-# %%
-# 2. define model
-init = K.initializers.RandomUniform(seed=1)
-simple_sgd = K.optimizers.SGD(learning_rate=0.010)#پارامتر نرخ یادگیری اسم جدیدتری دارد
-# توی لینک زیر یک مقدار متفاوت هستش
-# https://keras.io/api/optimizers/sgd/
-# بنظر می‌رسه درستش اینه:
-# simple_sgd = K.optimizers.experimental.SGD(learning_rate=0.1)
-
-# %%
-# این لایه ورودیش ۱۳ تا ورودی داره باید ببینیم در نهایت چند تا ورودی به مدل مون باید داشته باشیم اون وقت باید اون input_dim رو ویرایش کرد.
-model = K.models.Sequential()
-model.add(K.layers.Dense(units=10, input_dim=13, kernel_initializer=init, activation='tanh')) # hidden layer
-model.add(K.layers.Dense(units=10, activation='tanh')) # hidden layer
-model.add(K.layers.Dense(units=1, activation=None))
-model.compile(loss='mean_squared_error', optimizer = "adam" , metrics=['mse'])
 
 # %%
 dirname = os.path.dirname(__file__)
-Datasets_path = dirname[:-17] + "Datasets/"
+Datasets_path = dirname[:-21] + "Datasets/"
 # %%
 df = pd.read_csv(Datasets_path+"DataWithFullGDP.csv")
 if "Unnamed: 0" in df.columns:
@@ -77,7 +61,7 @@ df[df[df.columns[5]].isnull()]
 # %%
 df.dropna(inplace=True)
 # %%
-df
+df.drop(columns=["Region, subregion, country or area *","ISO3 Alpha-code"], inplace=True)
 # %%
 # الآن دیگه باید وارد فاز طراحی مدل بشیم.
 # من اینجا می‌خوام شبکه عصبی رو تست کنم.
@@ -86,6 +70,35 @@ from sklearn.linear_model import LinearRegression
 
 train , test = train_test_split(df, test_size=.2, random_state=313)
 train , valid = train_test_split(train, test_size=.2, random_state=313)
+
+# %%
+train
+
+# %%
+# 2. define model
+init = K.initializers.RandomUniform(seed=1)
+simple_sgd = K.optimizers.SGD(learning_rate=0.010)#پارامتر نرخ یادگیری اسم جدیدتری دارد
+# توی لینک زیر یک مقدار متفاوت هستش
+# https://keras.io/api/optimizers/sgd/
+# بنظر می‌رسه درستش اینه:
+# simple_sgd = K.optimizers.experimental.SGD(learning_rate=0.1)
+
+# %%
+# این لایه ورودیش ۱۳ تا ورودی داره باید ببینیم در نهایت چند تا ورودی به مدل مون باید داشته باشیم اون وقت باید اون input_dim رو ویرایش کرد.
+model = K.models.Sequential()
+model.add(K.layers.Dense(units=10, input_dim=57, kernel_initializer=init, activation='tanh')) # hidden layer
+model.add(K.layers.Dense(units=10, activation='tanh')) # hidden layer
+model.add(K.layers.Dense(units=1, activation=None))
+model.compile(loss='mean_squared_error', optimizer = simple_sgd , metrics=['mse'])
+
+# %%
+# 3. train model
+batch_size= 8
+max_epochs = 500
+
+print("Starting training ")
+h = model.fit(train_x, train_y, batch_size=batch_size, epochs=max_epochs, verbose=1)
+print("Training finished \n")
 
 
 # %%
