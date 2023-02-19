@@ -18,6 +18,7 @@ simple_sgd = K.optimizers.SGD(learning_rate=0.010)#پارامتر نرخ یاد�
 # simple_sgd = K.optimizers.experimental.SGD(learning_rate=0.1)
 
 # %%
+# این لایه ورودیش ۱۳ تا ورودی داره باید ببینیم در نهایت چند تا ورودی به مدل مون باید داشته باشیم اون وقت باید اون input_dim رو ویرایش کرد.
 model = K.models.Sequential()
 model.add(K.layers.Dense(units=10, input_dim=13, kernel_initializer=init, activation='tanh')) # hidden layer
 model.add(K.layers.Dense(units=10, activation='tanh')) # hidden layer
