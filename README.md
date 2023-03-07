@@ -15,3 +15,6 @@
 #### [```Datasets```](/Datasets) Folder
 Here we will store different files and datasets that we are using for this project.
 
+## داشبورد
+
+داشبورد این پروژه برای عموم روی [این لینک](http://103.75.196.219:8505) قابل مشاهده هست.
