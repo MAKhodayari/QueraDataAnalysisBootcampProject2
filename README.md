@@ -15,8 +15,8 @@
 ### [```Datasets```](/Datasets) Folder
 Here we will store different files and datasets that we are using for this project.
 
-### [```Models```](/Models) Folder
-Different machine learning algorithms tha we used for this project.
+### [```Streamlit```](/streamlit) Folder
+Our final dashboard and results.
 
 ## داشبورد
 
