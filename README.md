@@ -1,4 +1,4 @@
-# QueraDataAnalysisFinalProject
+# Quera Data Analysis Bootcamp Final Project
 
 ## توضیح بخش‌های مختلف
 
@@ -12,8 +12,11 @@
 ### پوشه [```models```](/models) 
 در این پوشه ما روی مدل‌های مختلفی که داریم کار می‌کنیم و نتایج رو توش ثبت می‌کنیم.
 
-#### [```Datasets```](/Datasets) Folder
+### [```Datasets```](/Datasets) Folder
 Here we will store different files and datasets that we are using for this project.
+
+### [```Models```](/Models) Folder
+Different machine learning algorithms tha we used for this project.
 
 ## داشبورد
 
